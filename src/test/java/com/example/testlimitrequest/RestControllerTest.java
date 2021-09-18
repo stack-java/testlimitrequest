@@ -52,6 +52,7 @@ public class RestControllerTest {
             doRequestTest(ip, URL_IP, HEADER_IP, status().isOk());
 
         } catch (Exception e) {
+            throw new RuntimeException();
         }
     }
 
