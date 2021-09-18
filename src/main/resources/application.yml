@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+limit:
+  minuteExpire: 10
+  maxCountRequest: 100
+
