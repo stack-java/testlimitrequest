@@ -1,4 +1,10 @@
-FROM adoptopenjdk/openjdk11:jdk-11.0.5_10-alpine
-MAINTAINER I_AM
-COPY target/testlimitrequest-*.jar testlimitrequest.jar
-ENTRYPOINT ["java","-jar","/testlimitrequest.jar"]
+FROM maven:3.6.2-jdk-11 as builder
+WORKDIR /app
+COPY pom.xml ./
+COPY src/ ./src/
+RUN mvn package
+
+FROM openjdk:11-jre-slim
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+CMD ["java", "-jar", "/app/app.jar"]

@@ -22,8 +22,9 @@ public class RestController {
             ipAddress = httpRequest.getRemoteAddr();
         }
 
-        if (limitService.isLimitOver(ipAddress))
+        if (limitService.isLimitOver(ipAddress)) {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+        }
 
         return ResponseEntity.ok().build();
 
