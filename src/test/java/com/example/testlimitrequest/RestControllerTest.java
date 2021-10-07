@@ -10,9 +10,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -40,7 +40,7 @@ public class RestControllerTest {
 
     private void parallelTest(String ip) {
         try {
-            for (int i = 1; i <= config.getMaxCountRequest() + 2; i++) {
+            for (int i = 1; i <= config.getMaxCountRequest()+5; i++) {
                 if (i <= config.getMaxCountRequest()) {
                     doRequestTest(ip, URL_IP, HEADER_IP, status().isOk());
                 } else {
@@ -52,12 +52,12 @@ public class RestControllerTest {
             doRequestTest(ip, URL_IP, HEADER_IP, status().isOk());
 
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
     private void doRequestTest(String ip, String url, String headerName,
-                           ResultMatcher result) throws Exception {
+                               ResultMatcher result) throws Exception {
         mockMvc.perform(get(url)
                         .header(headerName, ip)
                 ).andExpect(result)
